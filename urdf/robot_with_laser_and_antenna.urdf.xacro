@@ -62,10 +62,10 @@
 					<stddev>0.01</stddev>
 				</noise>
 			</ray>
-			<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
-			<!--      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">-->
-				<topicName>laserscan</topicName>
-				<frameName>hokuyo</frameName>
+			<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_ray_sensor.so">
+				<ros><remapping>~/out:=laserscan</remapping></ros>
+				<output_type>sensor_msgs/LaserScan</output_type>
+				<frame_name>hokuyo</frame_name>
 			</plugin>
 		</sensor>
 	</gazebo>
@@ -105,7 +105,13 @@
 
 	<gazebo reference="rfidantenna">
 		<sensor name="antenna1_robot" type="rfid">
-			<plugin name="antennaPlugin" filename="libgazeboRfidAntennaPlugin.so">
+			<plugin name="antenna1_robotPlugin" filename="libgazeboRfidAntennaPlugin.so">
+				<ros>
+					<namespace>/gazebo</namespace>
+					<argument>--ros-args</argument>
+					<argument>-p</argument>
+					<argument>use_sim_time:=true</argument>
+				</ros>
 				<frequency>865700000</frequency>
 				<noisephi>0.1</noisephi>
 				<noiserssi>0.01</noiserssi>

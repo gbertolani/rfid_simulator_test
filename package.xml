@@ -8,18 +8,22 @@
 
   <license>GNU GPL</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>gazebo_ros</build_depend>
-  <build_depend>geometry_msgs</build_depend>
-  <build_depend>rfid_sensor</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_export_depend>gazebo_ros</build_export_depend>
-  <build_export_depend>geometry_msgs</build_export_depend>
-  <build_export_depend>rfid_sensor</build_export_depend>
-  <build_export_depend>roscpp</build_export_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>rfid_sensor</depend>
+  <build_depend>gazebo_dev</build_depend>
+  <exec_depend>aws_robomaker_small_warehouse_world</exec_depend>
   <exec_depend>gazebo_ros</exec_depend>
-  <exec_depend>geometry_msgs</exec_depend>
-  <exec_depend>rfid_sensor</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-
+  <exec_depend>gazebo_plugins</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+    <gazebo_ros plugin_path="lib"/>
+  </export>
 </package>

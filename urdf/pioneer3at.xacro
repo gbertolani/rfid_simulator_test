@@ -338,22 +338,25 @@ name="pioneer3at">
 
 <xacro:macro name="p3at_gazebo_ext">
 	<gazebo>
-		<plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
-			<updateRate>100.0</updateRate>
-			<robotNamespace>sim_p3at</robotNamespace>
-			<leftFrontJoint>p3at_front_left_wheel_joint</leftFrontJoint>
-			<rightFrontJoint>p3at_front_right_wheel_joint</rightFrontJoint>
-			<leftRearJoint>p3at_back_left_wheel_joint</leftRearJoint>
-			<rightRearJoint>p3at_back_right_wheel_joint</rightRearJoint>
-			<wheelSeparation>0.4</wheelSeparation>
-			<wheelDiameter>0.215</wheelDiameter>
-			<robotBaseFrame>base_link</robotBaseFrame>
-			<MaxForce>5.0</MaxForce>
-			<torque>200</torque>
-			<commandTopic>/cmd_vel</commandTopic>
-			<odometryTopic>/odom</odometryTopic>
-			<odometryFrame>/odom</odometryFrame>
-			<broadcastTF>1</broadcastTF>
+		<plugin name="skid_steer_drive_controller" filename="libgazebo_ros_diff_drive.so">
+			<ros>
+				<namespace>/sim_p3at</namespace>
+				<remapping>cmd_vel:=/cmd_vel</remapping>
+				<remapping>odom:=/odom</remapping>
+			</ros>
+			<update_rate>100.0</update_rate>
+			<num_wheel_pairs>2</num_wheel_pairs>
+			<left_joint>p3at_front_left_wheel_joint</left_joint>
+			<right_joint>p3at_front_right_wheel_joint</right_joint>
+			<left_joint>p3at_back_left_wheel_joint</left_joint>
+			<right_joint>p3at_back_right_wheel_joint</right_joint>
+			<wheel_separation>0.4</wheel_separation>
+			<wheel_diameter>0.215</wheel_diameter>
+			<robot_base_frame>base_link</robot_base_frame>
+			<max_wheel_torque>200</max_wheel_torque>
+			<odometry_frame>odom</odometry_frame>
+			<publish_odom>true</publish_odom>
+			<publish_odom_tf>true</publish_odom_tf>
 		</plugin>
 	</gazebo>
 </xacro:macro>

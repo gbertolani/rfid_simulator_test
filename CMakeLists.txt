@@ -1,40 +1,27 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.8)
 project(rfid_simulator_test)
 
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
-
-find_package(catkin REQUIRED COMPONENTS
-  gazebo_ros
-  rfid_sensor
-  roscpp
-  geometry_msgs
-  sensor_msgs
-)
-
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rfid_sensor REQUIRED)
 find_package(gazebo REQUIRED)
-message(${GAZEBO_INCLUDE_DIRS})
-
-catkin_package(
-  CATKIN_DEPENDS gazebo_ros roscpp
-)
-
-###########
-## Build ##
-###########
-
-include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-  ${GAZEBO_INCLUDE_DIRS}
-)
 
 add_executable(collect_data_node src/collect_data.cpp)
-target_link_libraries(collect_data_node
-  ${catkin_LIBRARIES}
-)
+ament_target_dependencies(collect_data_node rclcpp rfid_sensor)
 
-#list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 add_library(move_antenna SHARED src/moveAntenna.cpp)
-target_include_directories(move_antenna SYSTEM PRIVATE include ${GAZEBO_INCLUDE_DIRS})
+target_include_directories(move_antenna SYSTEM PRIVATE ${GAZEBO_INCLUDE_DIRS})
 target_link_libraries(move_antenna ${GAZEBO_LIBRARIES})
+separate_arguments(gazebo_cxx_flags NATIVE_COMMAND "${GAZEBO_CXX_FLAGS}")
+target_compile_options(move_antenna PRIVATE ${gazebo_cxx_flags})
+
+install(TARGETS collect_data_node DESTINATION lib/${PROJECT_NAME})
+install(TARGETS move_antenna LIBRARY DESTINATION lib)
+install(DIRECTORY launch urdf meshes config DESTINATION share/${PROJECT_NAME})
+
+ament_package()

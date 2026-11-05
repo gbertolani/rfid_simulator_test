@@ -14,7 +14,13 @@
 		<mu1>100.0</mu1>
 		<mu2>100.0</mu2>
 		<sensor name="antenna$(arg name_idx)" type="rfid">
-			<plugin name="antennaPlugin" filename="libgazeboRfidAntennaPlugin.so">
+			<plugin name="antenna$(arg name_idx)Plugin" filename="libgazeboRfidAntennaPlugin.so">
+				<ros>
+					<namespace>/gazebo</namespace>
+					<argument>--ros-args</argument>
+					<argument>-p</argument>
+					<argument>use_sim_time:=true</argument>
+				</ros>
 				<frequency>865700000</frequency>
 				<noisephi>0.1</noisephi>
 				<noiserssi>0.008</noiserssi>
